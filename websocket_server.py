@@ -1,7 +1,6 @@
-# websocket_server.py
+import os
 import asyncio
 import websockets
-import json
 
 clients = set()
 
@@ -18,7 +17,9 @@ async def handler(ws):
         clients.remove(ws)
 
 async def main():
-    async with websockets.serve(handler, "0.0.0.0", 8080):
+    port = int(os.getenv("PORT", 8080))
+    async with websockets.serve(handler, "0.0.0.0", port):
         await asyncio.Future()  # run forever
 
 asyncio.run(main())
+
