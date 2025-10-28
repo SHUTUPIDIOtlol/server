@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gaming Café Control Panel</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #121212;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #00e0ff;
+    }
+    button {
+      background: #1e1e1e;
+      border: 2px solid #00e0ff;
+      border-radius: 8px;
+      color: #00e0ff;
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #00e0ff;
+      color: black;
+    }
+    #notif {
+      background: #222;
+      border: 2px solid #f54242;
+      color: #f54242;
+      display: none;
+      margin: 20px auto;
+      padding: 10px;
+      width: 80%;
+      border-radius: 8px;
+    }
+    input {
+      background: #1a1a1a;
+      border: 1px solid #00e0ff;
+      color: white;
+      border-radius: 6px;
+      padding: 5px;
+      width: 60px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎮 Gaming Café Control</h1>
+
+  <div id="status">Status: <b>Loading...</b></div>
+  <div id="time">Time Left: <b>--:--</b></div>
+
+  <br />
+  <button onclick="sendAction('pause')">⏸ Pause</button>
+  <button onclick="sendAction('resume')">▶ Resume</button>
+  <button onclick="addTime(900)">+15 min</button>
+  <button onclick="addTime(1800)">+30 min</button>
+  <br />
+  <input type="number" id="customMinutes" placeholder="mins" />
+  <button onclick="addCustom()">Add Custom Time</button>
+  <br />
+  <button onclick="sendAction('reset')">🔁 Reset Timer</button>
+
+  <div id="notif"></div>
+
+  <script>
+    const API_URL = "https://example.com/api/pc1"; // <-- replace with your endpoint
+    const REFRESH_MS = 5000; // check every 5s
+
+    async function fetchStatus() {
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        document.getElementById("status").innerHTML = `Status: <b>${data.status}</b>`;
+        const mins = Math.floor(data.time_left / 60);
+        const secs = data.time_left % 60;
+        document.getElementById("time").innerHTML = `Time Left: <b>${mins}:${secs.toString().padStart(2, "0")}</b>`;
+
+        // Pause request notification
+        if (data.pause_request) {
+          showNotif(`🛑 Pause requested: ${data.reason}`);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function showNotif(msg) {
+      const n = document.getElementById("notif");
+      n.style.display = "block";
+      n.innerText = msg;
+      setTimeout(() => (n.style.display = "none"), 10000);
+    }
+
+    async function sendAction(action, extra = {}) {
+      const body = { action, ...extra };
+      try {
+        await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+      } catch (e) {
+        console.error("Failed to send", e);
+      }
+    }
+
+    function addTime(seconds) {
+      sendAction("add_time", { add_time: seconds });
+    }
+
+    function addCustom() {
+      const mins = parseInt(document.getElementById("customMinutes").value);
+      if (!isNaN(mins) && mins > 0) {
+        addTime(mins * 60);
+      }
+    }
+
+    setInterval(fetchStatus, REFRESH_MS);
+    fetchStatus();
+  </script>
+</body>
+</html>
