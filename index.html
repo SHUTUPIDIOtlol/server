@@ -1,129 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gaming Café Control Panel</title>
-  <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      background: #121212;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-    h1 {
-      color: #00e0ff;
-    }
-    button {
-      background: #1e1e1e;
-      border: 2px solid #00e0ff;
-      border-radius: 8px;
-      color: #00e0ff;
-      font-size: 18px;
-      padding: 10px 20px;
-      margin: 10px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #00e0ff;
-      color: black;
-    }
-    #notif {
-      background: #222;
-      border: 2px solid #f54242;
-      color: #f54242;
-      display: none;
-      margin: 20px auto;
-      padding: 10px;
-      width: 80%;
-      border-radius: 8px;
-    }
-    input {
-      background: #1a1a1a;
-      border: 1px solid #00e0ff;
-      color: white;
-      border-radius: 6px;
-      padding: 5px;
-      width: 60px;
-      text-align: center;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Car Issues</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+<style>
+html, body {
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  height:100%;
+  background:#050505;
+  font-family:Poppins,sans-serif;
+}
+
+body {
+  position:relative;
+}
+
+.row-wrapper{
+  position:absolute;
+  display:flex;
+  width:100%;
+  z-index:1;
+}
+
+.row1{ top:10%; }
+.row2{ top:20%; }
+.row3{ top:30%; }
+.row4{ top:40%; }
+.row5{ top:50%; }
+.row6{ top:60%; }
+.row7{ top:70%; }
+.row8{ top:80%; }
+.row9{ top:90%; }
+
+.tilt-img{
+  flex-shrink:0;
+  width:80px;
+  height:50px;
+  object-fit:cover;
+  transform:rotate(-15deg);
+  opacity:0.8;
+  margin-right:10px;
+  border-radius:5px;
+}
+
+.corner-img{
+  position:fixed;
+  width:100px;
+  height:100px;
+  object-fit:cover;
+  border-radius:10px;
+  opacity:0.9;
+  z-index:9;
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.corner-img.fade-out {
+  opacity: 0;
+  transform: scale(0.5) translate(var(--dx), var(--dy)) rotate(var(--rotate));
+}
+
+.corner-top-left { top:50%; left:50%; transform: translate(-190px, -150px); }
+.corner-top-right { top:50%; left:50%; transform: translate(90px, -150px); }
+.corner-bottom-left { top:50%; left:50%; transform: translate(-190px, 50px); }
+.corner-bottom-right { top:50%; left:50%; transform: translate(90px, 50px); }
+
+.center{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:10;
+  padding:1rem;
+}
+
+.card{
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(18px);
+  padding:4vh 4vw;
+  border-radius:2rem;
+  box-shadow:0 0 120px rgba(255,120,0,0.5);
+  animation:wave 4s ease-in-out infinite;
+  max-width:800px;
+  width:80%;
+  color:white;
+}
+
+@keyframes wave{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-2vh);}
+  100%{transform:translateY(0);}
+}
+
+h1{
+  font-size:clamp(1.8rem,3vw,3rem);
+  font-weight:800;
+  color:white;
+}
+
+h2{
+  margin-top:1rem;
+  font-size:clamp(1.2rem,2vw,1.8rem);
+  font-weight:300;
+  direction:rtl;
+  opacity:0.95;
+  color:white;
+}
+
+.line{
+  width:150px;
+  height:4px;
+  margin:2rem auto;
+  background:linear-gradient(90deg,#ff4d00,#ffaa00,#ff0077);
+  border-radius:10px;
+  box-shadow:0 0 30px #ff6a00;
+}
+
+.call-card{
+  margin:1rem auto 0;
+  width:60%;
+  max-width:400px;
+  padding:1rem 1.5rem;
+  border-radius:1.5rem;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(14px);
+  box-shadow:0 0 40px rgba(0,255,200,0.35);
+  font-weight:600;
+  letter-spacing:0.3px;
+  color:white;
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+
+.call-card:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 55px rgba(0,255,200,0.5);
+}
+</style>
 </head>
 <body>
-  <h1>🎮 Gaming Café Control</h1>
 
-  <div id="status">Status: <b>Loading...</b></div>
-  <div id="time">Time Left: <b>--:--</b></div>
+<div class="row-wrapper row1" id="row1"></div>
+<div class="row-wrapper row2" id="row2"></div>
+<div class="row-wrapper row3" id="row3"></div>
+<div class="row-wrapper row4" id="row4"></div>
+<div class="row-wrapper row5" id="row5"></div>
+<div class="row-wrapper row6" id="row6"></div>
+<div class="row-wrapper row7" id="row7"></div>
+<div class="row-wrapper row8" id="row8"></div>
+<div class="row-wrapper row9" id="row9"></div>
 
-  <br />
-  <button onclick="sendAction('pause')">⏸ Pause</button>
-  <button onclick="sendAction('resume')">▶ Resume</button>
-  <button onclick="addTime(900)">+15 min</button>
-  <button onclick="addTime(1800)">+30 min</button>
-  <br />
-  <input type="number" id="customMinutes" placeholder="mins" />
-  <button onclick="addCustom()">Add Custom Time</button>
-  <br />
-  <button onclick="sendAction('reset')">🔁 Reset Timer</button>
+<!-- Corner images only from main/ -->
+<img src="main/img1.jpg" class="corner-img corner-top-left" />
+<img src="main/img2.jpg" class="corner-img corner-top-right" />
+<img src="main/img3.jpg" class="corner-img corner-bottom-left" />
+<img src="main/img4.jpg" class="corner-img corner-bottom-right" />
 
-  <div id="notif"></div>
+<div class="center">
+  <div class="card">
+    <h1>مشاكل في سيارتك؟.. لا تقلق، نحن هنا لمساعدتك</h1> <!-- Arabic big text -->
+    <div class="line"></div>
+    <h2>Issues with your car?.. don’t worry, we got you</h2> <!-- English smaller text -->
 
-  <script>
-    const API_URL = "https://example.com/api/pc1"; // <-- replace with your endpoint
-    const REFRESH_MS = 5000; // check every 5s
+    <div class="call-card">
+      Call this number<br>
+      [7815989566]
+    </div>
+  </div>
+</div>
 
-    async function fetchStatus() {
-      try {
-        const res = await fetch(API_URL);
-        const data = await res.json();
-        document.getElementById("status").innerHTML = `Status: <b>${data.status}</b>`;
-        const mins = Math.floor(data.time_left / 60);
-        const secs = data.time_left % 60;
-        document.getElementById("time").innerHTML = `Time Left: <b>${mins}:${secs.toString().padStart(2, "0")}</b>`;
+<script>
+const imageFiles = ["img1.jpg","img2.jpg","img3.jpg","img4.jpg","img6.jpg","img7.jpg"]; // for scrolling rows only
 
-        // Pause request notification
-        if (data.pause_request) {
-          showNotif(`🛑 Pause requested: ${data.reason}`);
-        }
-      } catch (e) {
-        console.error(e);
-      }
+const rows = [
+  { id: "row1", speed: 0.2 },
+  { id: "row2", speed: 0.4 },
+  { id: "row3", speed: 0.3 },
+  { id: "row4", speed: 0.5 },
+  { id: "row5", speed: 0.25 },
+  { id: "row6", speed: 0.35 },
+  { id: "row7", speed: 0.15 },
+  { id: "row8", speed: 0.45 },
+  { id: "row9", speed: 0.45 }
+];
+
+rows.forEach(row => {
+  const wrapper = document.getElementById(row.id);
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+    return arr;
+  }
 
-    function showNotif(msg) {
-      const n = document.getElementById("notif");
-      n.style.display = "block";
-      n.innerText = msg;
-      setTimeout(() => (n.style.display = "none"), 10000);
+  const shuffledImages = shuffleArray(imageFiles.concat(imageFiles));
+  shuffledImages.forEach(file => {
+    const img = new Image();
+    img.src = file; // scrolling row images are NOT from main/
+    img.className = "tilt-img";
+    wrapper.appendChild(img);
+  });
+
+  let scrollX = 0;
+  const totalWidth = wrapper.scrollWidth / 2;
+
+  function animate(){
+    scrollX -= row.speed;
+    if(scrollX <= -totalWidth) scrollX = 0;
+    wrapper.style.transform = `translateX(${scrollX}px)`;
+    requestAnimationFrame(animate);
+  }
+  animate();
+});
+
+// Corner images fade, shrink, move, rotate after 10s
+setTimeout(() => {
+  const cornerImages = document.querySelectorAll('.corner-img');
+  cornerImages.forEach((img, index) => {
+    let dx='0px', dy='0px', rotate='0deg';
+    switch(index){
+      case 0: dx='-50px'; dy='-50px'; rotate='-30deg'; break;
+      case 1: dx='50px'; dy='-50px'; rotate='30deg'; break;
+      case 2: dx='-50px'; dy='50px'; rotate='30deg'; break;
+      case 3: dx='50px'; dy='50px'; rotate='-30deg'; break;
     }
+    img.style.setProperty('--dx', dx);
+    img.style.setProperty('--dy', dy);
+    img.style.setProperty('--rotate', rotate);
+    img.classList.add('fade-out');
+    setTimeout(() => img.style.display = 'none', 1000);
+  });
+}, 10000);
+</script>
 
-    async function sendAction(action, extra = {}) {
-      const body = { action, ...extra };
-      try {
-        await fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-      } catch (e) {
-        console.error("Failed to send", e);
-      }
-    }
-
-    function addTime(seconds) {
-      sendAction("add_time", { add_time: seconds });
-    }
-
-    function addCustom() {
-      const mins = parseInt(document.getElementById("customMinutes").value);
-      if (!isNaN(mins) && mins > 0) {
-        addTime(mins * 60);
-      }
-    }
-
-    setInterval(fetchStatus, REFRESH_MS);
-    fetchStatus();
-  </script>
 </body>
 </html>
