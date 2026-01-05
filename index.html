@@ -1,40 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Car Issues</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
-<style>
-html, body {
-  margin:0;
-  padding:0;
-  overflow:hidden;
-  height:100%;
-  background:#050505;
-  font-family:Poppins,sans-serif;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Issues</title>
 
-body {
-  position:relative;
-}
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
 
-.row-wrapper{
-  position:absolute;
-  display:flex;
-  width:100%;
-  z-index:1;
-}
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-.row1{ top:10%; }
-.row2{ top:20%; }
-.row3{ top:30%; }
-.row4{ top:40%; }
-.row5{ top:50%; }
-.row6{ top:60%; }
-.row7{ top:70%; }
-.row8{ top:80%; }
-.row9{ top:90%; }
+  <!-- Scrolling images -->
+  <div class="scroll-wrapper" id="scrollWrapper"></div>
+
+  <!-- Center card -->
+  <div class="center">
+    <div class="card">
+      <h1>مشاكل في سيارتك؟.. لا تقلق، نحن هنا لمساعدتك</h1>
+      <div class="line"></div>
+      <h2>Issues with your car?.. don’t worry, we got you</h2>
+
+      <div class="call-card">
+        Call this number<br>
+        [+9647815989566]
+      </div>
+    </div>
+  </div>
+
+  <!-- External JS -->
+  <script src="script.js"></script>
+</body>
+</html>.row9{ top:90%; }
 
 .tilt-img{
   flex-shrink:0;
