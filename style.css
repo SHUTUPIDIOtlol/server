@@ -24,7 +24,6 @@ body {
 /* Scrolling images */
 .tilt-img {
   flex-shrink: 0;
-  object-fit: cover;
   border-radius: 10px;
   transform: rotate(-15deg);
   opacity: 0.8;
@@ -38,7 +37,6 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -46,7 +44,7 @@ body {
   padding: 1rem;
 }
 
-/* Main card */
+/* Main glass card */
 .card {
   background: rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(18px);
